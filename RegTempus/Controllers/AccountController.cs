@@ -4,14 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RegTempus.Models;
+using RegTempus.Services;
 using RegTempus.ViewModels;
 
 namespace RegTempus.Controllers
 {
     public class AccountController : Controller
     {
+        private IRegTempus _iRegTempus;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+
+        //public Registrator() { }
+
+        public AccountController(IRegTempus iRegTempus)
+        {
+            _iRegTempus = iRegTempus;
+        }
 
         public AccountController(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager)
@@ -63,12 +73,21 @@ namespace RegTempus.Controllers
                 var result =
                     await _userManager.CreateAsync
                     (user, registerViewModel.Password);
+                //skapa en ny app användare med firstname, lastname 
+                Registrator registrator = new Registrator()
+                {
+                    FirstName = registerViewModel.FirstName,
+                    LastName = registerViewModel.LastName,
+                    UserId = user.Id,
+                    UserHaveStartedTimeMeasure = false,
+                    StartedTimeMeasurement = 0
+                };
+                registrator = _iRegTempus.CreateRegistrator(registrator);
 
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                //skapa en ny app användare med firstname, lastname 
             }
             return View(registerViewModel);
         }

@@ -27,9 +27,12 @@ namespace RegTempus.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            ClaimsPrincipal user = new ClaimsPrincipal();
             if (!User.Identity.IsAuthenticated)
             {
+                    return RedirectToAction("Login" , "Account");
+            }
+            //IdentityUser userRegistrator = new IdentityUser();
+            ClaimsPrincipal user = new ClaimsPrincipal();
                 try
                 {
                     user = User;
@@ -37,10 +40,8 @@ namespace RegTempus.Controllers
                 catch (NullReferenceException)
                 {
                     ViewBag.ErrorMessage = "No logged in user could be found.";
-                    return RedirectToAction("Login" , "Account");
-                }
                 
-            }
+                }
             Registrator registrator = Registrator.GetRegistratorData(user);
             if (registrator.UserId==null)
             {
