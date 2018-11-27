@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RegTempus.Models;
 using RegTempus.Services;
@@ -23,19 +24,28 @@ namespace RegTempus.Controllers
             _iRegTempus = iRegTempus;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             ClaimsPrincipal user = new ClaimsPrincipal();
-            try
+            if (!User.Identity.IsAuthenticated)
             {
-                user = User;
-            }
-            catch (NullReferenceException)
-            {
-                ViewBag.ErrorMessage = "No logged in user could be found.";
-                return View();
+                try
+                {
+                    user = User;
+                }
+                catch (NullReferenceException)
+                {
+                    ViewBag.ErrorMessage = "No logged in user could be found.";
+                    return RedirectToAction("Login" , "Account");
+                }
+                
             }
             Registrator registrator = Registrator.GetRegistratorData(user);
+            if (registrator.UserId==null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             registrator = _iRegTempus.GetRegistratorBasedOnUserId(registrator);
             bool result = ((registrator == null) ? false : true);
             if (result == false)

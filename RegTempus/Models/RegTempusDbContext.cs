@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RegTempus.Models
 {
-    public class RegTempusDbContext : DbContext
+    public class RegTempusDbContext : IdentityDbContext<IdentityUser>
     //public class RegTempusDbContext : IdentityDbContext<IdentityUser>
     {
         public RegTempusDbContext(DbContextOptions<RegTempusDbContext> options) : base(options)
