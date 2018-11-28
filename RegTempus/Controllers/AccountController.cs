@@ -16,16 +16,10 @@ namespace RegTempus.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
 
-        //public Registrator() { }
-
-        public AccountController(IRegTempus iRegTempus)
+        public AccountController(SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, IRegTempus iRegTempus)
         {
             _iRegTempus = iRegTempus;
-        }
-
-        public AccountController(SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager)
-        {
             _signInManager = signInManager;
             _userManager = userManager;
         }
@@ -48,10 +42,14 @@ namespace RegTempus.Controllers
             {
                 var result = await
                     _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
+                Registrator registrator = new Registrator()
+                {
+                    UserId = user.Id
+                };
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index2", "Home", registrator);
                 }
             }
             ModelState.AddModelError("", "User name/password not found");
@@ -86,7 +84,7 @@ namespace RegTempus.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
             }
             return View(registerViewModel);

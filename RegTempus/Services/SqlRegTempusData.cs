@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using RegTempus.Models;
 
 namespace RegTempus.Services
@@ -43,6 +44,13 @@ namespace RegTempus.Services
         {
             List<TimeMeasurement> MonthFulOfRegistrations = _context.TimeMeasurements.Where(m => m.MonthOfYear == monthOfYear).ToList();
             return MonthFulOfRegistrations.Where(r => r.RegistratorId == user.RegistratorId).ToList();
+        }
+
+        public Registrator GetRegistratorBasedOnEmail(string userEmail)
+        {
+            IdentityUser user = _context.Users.SingleOrDefault(u => u.UserName == userEmail);
+            Registrator registrator = _context.Registrators.SingleOrDefault(u => u.UserId == user.Id);
+            return registrator;
         }
 
         public Registrator GetRegistratorBasedOnRegistratorId(Registrator user)

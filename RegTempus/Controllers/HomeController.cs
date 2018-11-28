@@ -12,12 +12,10 @@ using RegTempus.ViewModels;
 
 namespace RegTempus.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
         private IRegTempus _iRegTempus;
-
-        //public Registrator() { }
 
         public HomeController(IRegTempus iRegTempus)
         {
@@ -29,29 +27,38 @@ namespace RegTempus.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                    return RedirectToAction("Login" , "Account");
+                return RedirectToAction("Login", "Account");
             }
-            //IdentityUser userRegistrator = new IdentityUser();
-            ClaimsPrincipal user = new ClaimsPrincipal();
-                try
-                {
-                    user = User;
-                }
-                catch (NullReferenceException)
-                {
-                    ViewBag.ErrorMessage = "No logged in user could be found.";
-                
-                }
-            Registrator registrator = Registrator.GetRegistratorData(user);
-            if (registrator.UserId==null)
+            else
+            {
+                string userEmail = User.Identity.Name;
+                Registrator registrator = _iRegTempus.GetRegistratorBasedOnEmail(userEmail);
+                return RedirectToAction("Index2", "Home", registrator);
+            }
+        }
+
+        public IActionResult Index2(Registrator registrator)
+        {
+            if (registrator.UserId != null)
+            {
+                registrator = _iRegTempus.GetRegistratorBasedOnUserId(registrator);
+
+            }
+            else
+            {
+                //registrator= _iRegTempus.Get
+            }
+
+
+            if (registrator.UserId == null)
             {
                 return RedirectToAction("Login", "Account");
             }
-            registrator = _iRegTempus.GetRegistratorBasedOnUserId(registrator);
+
             bool result = ((registrator == null) ? false : true);
             if (result == false)
             {
-                registrator = Registrator.GetRegistratorData(user);
+                // registrator = Registrator.GetRegistratorData(user); uncomment this line if Azure AD is used.
                 registrator.UserHaveStartedTimeMeasure = false;
                 registrator.StartedTimeMeasurement = 0;
                 registrator = _iRegTempus.CreateRegistrator(registrator);
@@ -59,8 +66,6 @@ namespace RegTempus.Controllers
             UserTimeRegistrationViewModel konvertedRegistrator = UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
             return View(konvertedRegistrator);
         }
-
-
 
         [HttpPost]
         public IActionResult StartTime(int registratorId)
@@ -106,7 +111,7 @@ namespace RegTempus.Controllers
             }
             ViewBag.SuccessMessage = "Your start time is registered.";
             UserTimeRegistrationViewModel konvertedRegistrator = UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
-            return View("Index", konvertedRegistrator);
+            return View("Index2", konvertedRegistrator);
         }
 
         [HttpPost]
@@ -124,7 +129,7 @@ namespace RegTempus.Controllers
             catch (NullReferenceException)
             {
                 ViewBag.ErrorMessage = "Error: Fetching your data did not succed. Please make a manual note of present time.";
-                return View("Index");
+                return View("Index2");
             }
             registrator.UserHaveStartedTimeMeasure = false;
             try
@@ -134,7 +139,7 @@ namespace RegTempus.Controllers
             catch (NullReferenceException)
             {
                 ViewBag.ErrorMessage = "Error: Fetching your start time did not succed. Please make a manual note of present time.";
-                return View("Index");
+                return View("Index2");
             }
             DateTime stopTime = DateTime.Now;
             if (measuredTime.TimeStart.DayOfYear == stopTime.DayOfYear)
@@ -153,7 +158,7 @@ namespace RegTempus.Controllers
                 catch (NullReferenceException)
                 {
                     ViewBag.ErrorMessage = "Error: Updating your stop time did not succed. Please make a manual note of present time.";
-                    return View("Index");
+                    return View("Index2");
                 }
             }
             try
@@ -163,7 +168,7 @@ namespace RegTempus.Controllers
             catch (NullReferenceException)
             {
                 ViewBag.ErrorMessage = "Error: Updating your stop time did not succed. Please make a manual note of present time.";
-                return View("Index");
+                return View("Index2");
             }
             registrator.StartedTimeMeasurement = 0;
             try
@@ -173,11 +178,11 @@ namespace RegTempus.Controllers
             catch (NullReferenceException)
             {
                 ViewBag.ErrorMessage = "Error: Updating your data did not succed. Please make a manual note of present time.";
-                return View("Index");
+                return View("Index2");
             }
             ViewBag.SuccessMessage = "Your stop time is registered.";
             UserTimeRegistrationViewModel konvertedRegistrator = UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
-            return View("Index", konvertedRegistrator);
+            return View("Index2", konvertedRegistrator);
         }
 
         [HttpPost]
@@ -202,7 +207,7 @@ namespace RegTempus.Controllers
             catch (NullReferenceException)
             {
                 ViewBag.ErrorMessage = "Error: Fetching your data did not succed. Please try again.";
-                return View("Index");
+                return View("Index2");
             }
 
             try
@@ -212,7 +217,7 @@ namespace RegTempus.Controllers
             catch (NullReferenceException)
             {
                 ViewBag.ErrorMessage = "Error: No registrations was found for the present month.";
-                return View();
+                return View("Index2");
             }
             List<PresentRegisteredTimeViewModel> currentMonthRegistrations = PresentRegisteredTimeViewModel.CalculateTime(presentMonthTimeMesurements);
             return View(currentMonthRegistrations);

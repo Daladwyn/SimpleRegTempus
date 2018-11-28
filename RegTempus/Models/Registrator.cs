@@ -58,10 +58,22 @@ namespace RegTempus.Models
             }
             return registrator;
         }
-        public static Registrator CheckRegistatorData(Registrator registrator)
-        {
 
-            return registrator;
-        }
+
+        //public static Registrator GetUserBasedOnEmail(string userEmail)
+        //{
+        //     private readonly UserManager<IdentityUser> _userManager;
+
+        //public GetUserBasedOnEmail(
+        //    UserManager<IdentityUser> userManager, IRegTempus iRegTempus)
+        //{
+        //    _iRegTempus = iRegTempus;
+        //    _signInManager = signInManager;
+        //    _userManager = userManager;
+        //}
+        ////Registrator registrator = ;
+        //var user = _userManager.FindByNameAsync(userEmail);
+        //    return registrator;
+        //}
     }
 }
