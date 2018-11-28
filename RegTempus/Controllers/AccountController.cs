@@ -49,7 +49,7 @@ namespace RegTempus.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index2", "Home", registrator);
+                    return RedirectToAction("RegisterTime", "Home", registrator);
                 }
             }
             ModelState.AddModelError("", "User name/password not found");
@@ -71,7 +71,6 @@ namespace RegTempus.Controllers
                 var result =
                     await _userManager.CreateAsync
                     (user, registerViewModel.Password);
-                //skapa en ny app användare med firstname, lastname 
                 Registrator registrator = new Registrator()
                 {
                     FirstName = registerViewModel.FirstName,
@@ -94,7 +93,7 @@ namespace RegTempus.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
     }
 }
