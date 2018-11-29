@@ -22,6 +22,7 @@ namespace RegTempus.Controllers
             _iRegTempus = iRegTempus;
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult Index()
         {
@@ -37,6 +38,7 @@ namespace RegTempus.Controllers
             }
         }
 
+        [HttpGet]
         public IActionResult RegisterTime(Registrator registrator)
         {
             if (registrator.UserId != null)
@@ -55,7 +57,8 @@ namespace RegTempus.Controllers
                 registrator.StartedTimeMeasurement = 0;
                 registrator = _iRegTempus.CreateRegistrator(registrator);
             }
-            UserTimeRegistrationViewModel konvertedRegistrator = UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
+            UserTimeRegistrationViewModel konvertedRegistrator =
+                UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
             return View(konvertedRegistrator);
         }
 

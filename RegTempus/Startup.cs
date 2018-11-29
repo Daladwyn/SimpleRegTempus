@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,7 +35,7 @@ namespace RegTempus
 
             services.AddTransient<IRegTempus, SqlRegTempusData>();
 
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,15 +45,21 @@ namespace RegTempus
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
 
             app.UseStatusCodePages();
-
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseNodeModules(env.ContentRootPath);
+            //app.UseNodeModules(env.ContentRootPath);
 
             app.UseAuthentication();
 
+            
             app.UseMvc(RouteOptions);
 
             //app.Run(async (context) =>
@@ -62,7 +69,7 @@ namespace RegTempus
         }
         private void RouteOptions(IRouteBuilder routes)
         {
-            routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+            routes.MapRoute("Default", "{controller=Home}/{action=Index}");
         }
     }
 }
