@@ -5,7 +5,7 @@
     Layout = "~/Views/_Layout.cshtml";
 }
 
-<h2>Register an account.</h2>
+<h2>Create an account.</h2>
 
 <form asp-action="Register" asp-controller="Account" method="post" class="form-horizontal" role="form">
 
@@ -36,14 +36,14 @@
     <div class="form-group">
         <label asp-for="Password" class="col-md-2 control-label"></label>
         <div class="col-md-10">
-            <input asp-for="Password" class="form-control" placeholder="Your 6 alphanummeric characters password"/>
-            <span asp-validation-for="Password" class="text-danger"></span>
+            <input asp-for="Password" class="form-control" placeholder="Your password" />
+            <span asp-validation-for="Password" class="text-danger"></span> 
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-primary" value="Register" />
+            <input type="submit" class="btn btn-primary" value="Create" />
         </div>
     </div>
 </form>
