@@ -59,6 +59,7 @@ namespace RegTempus.Controllers
             }
             UserTimeRegistrationViewModel konvertedRegistrator =
                 UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
+            ViewBag.CurrentMonth = DateTime.Now.Month;
             return View(konvertedRegistrator);
         }
 
@@ -181,7 +182,7 @@ namespace RegTempus.Controllers
         }
 
         [HttpPost]
-        public IActionResult PresentRegistrations(int registratorId)
+        public IActionResult PresentRegistrations(int registratorId,int month)
         {
             List<TimeMeasurement> presentMonthTimeMesurements = new List<TimeMeasurement>();
             DateTime currentMonth = DateTime.Now;
