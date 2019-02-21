@@ -170,16 +170,17 @@ namespace RegTempus.Controllers
         }
 
         [HttpPost]
-        public IActionResult PresentRegistrations(int registratorId)
+        public IActionResult PresentRegistrations(int registratorId, int month)
         {
-            //int monthOfYear;
             List<TimeMeasurement> presentMonthTimeMesurements = new List<TimeMeasurement>();
-            DateTime currentMonth = DateTime.Now;
-            int currentMonthAsInt = currentMonth.Month;
-            string currentMonthAsString = currentMonth.ToString("yyyy MMMM");
-            ViewBag.Month = currentMonthAsString;
+            int currentMonth = (month > 0) ? month : DateTime.Now.Month;
+            int previousMonth = (currentMonth == 1) ? 12 : currentMonth - 1;
+            DateTime cM = DateTime.Now;
+            string currentMonthAsString = cM.ToString("yyyy MMMM");
 
-            ViewBag.NextMonth = "";
+            ViewBag.Month = currentMonthAsString;
+            ViewBag.PreviousMonth = previousMonth;
+
             Registrator registrator = new Registrator
             {
                 RegistratorId = registratorId
@@ -196,7 +197,7 @@ namespace RegTempus.Controllers
 
             try
             {
-                presentMonthTimeMesurements = _iRegTempus.GetMonthlyTimeMeasurement(currentMonthAsInt, registrator);
+                presentMonthTimeMesurements = _iRegTempus.GetMonthlyTimeMeasurement(currentMonth, registrator);
             }
             catch (NullReferenceException)
             {

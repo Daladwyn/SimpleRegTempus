@@ -11,11 +11,12 @@
             <input class="btn btn-primary" type="submit" name="name" value="Time registration" />
         </form>
     </li>
+    <li class="nav-item">
+        <form asp-controller="Home" asp-action="PresentRegistrations" method="post">
+            <input class="btn btn-primary" type="submit" name="name" value="Prev" />
+            <input type="hidden" value=" @ViewBag.PreviousMonth" name="CurrentMonth" />
+        </form>
 
-    <li  class="nav-item">
-        <button class="btn btn-info">
-            prev
-        </button>
     </li>
 
     <li class="nav-item">

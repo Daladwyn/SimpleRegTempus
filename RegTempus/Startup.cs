@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,9 @@ namespace RegTempus
         {
             services.AddDbContext<RegTempusDbContext>(
                             options => options.UseSqlServer(_configuration.GetConnectionString("RegTempus")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<RegTempusDbContext>();
 
             services.AddTransient<IRegTempus, SqlRegTempusData>();
 
@@ -59,7 +63,8 @@ namespace RegTempus
         }
         private void RouteOptions(IRouteBuilder routes)
         {
-            routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+            routes.MapRoute("Default", "{controller=Account}/{action=Login}");
+            //routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
         }
     }
 }
