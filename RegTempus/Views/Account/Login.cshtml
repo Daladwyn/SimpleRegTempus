@@ -1,4 +1,8 @@
 ﻿@model LoginViewModel
+@{
+
+    Layout = "~/Views/_Layout.cshtml";
+}
 
 <h2>To register time you have to login or <a asp-action="register" asp-controller="Account">create an account</a></h2>
 <form asp-controller="Account" asp-action="Login" method="post" class="form-horisontal">
@@ -15,7 +19,7 @@
     <div class="form-group">
         <label asp-for="Password" class="col-2 col-md-2 col-sd-2 control-label"></label>
         <div class="col-10 col-md-10 col-sd-10">
-            <input asp-for="Password" class="form-control" placeholder="Your topsecret password"/>
+            <input asp-for="Password" class="form-control" placeholder="Your topsecret password" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
     </div>
