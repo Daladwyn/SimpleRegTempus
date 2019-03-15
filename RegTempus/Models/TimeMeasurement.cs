@@ -20,6 +20,9 @@ namespace RegTempus.Models
 
         public string TimeType { get; set; }
 
+        //[Range(1,7)]
+        //public int DayInWeek { get; set; }
+
         [Range(1, 31)]
         public int DayOfMonth { get; set; }
 
@@ -42,6 +45,7 @@ namespace RegTempus.Models
                 RegistratorId = registrator.RegistratorId,
                 TimeStart = DateTime.Now.AddHours(1),
                 TimeStop = DateTime.Now.AddHours(1),
+               // DayInWeek= DateTime.Today.DayOfWeek,
                 DayOfMonth = DateTime.Today.Day,
                 MonthOfYear = DateTime.Today.Month,
                 Year = DateTime.Today.Year,

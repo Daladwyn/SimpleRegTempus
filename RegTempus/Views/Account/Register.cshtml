@@ -10,7 +10,7 @@
 <form asp-action="Register" asp-controller="Account" method="post" class="form-horizontal" role="form">
 
     <div asp-validation-summary="All" class="text-danger"></div>
-
+    <div class="text-danger">@ViewBag.RegistrationError</div>    
 
     <div class="form-group">
         <label asp-for="UserName" class="col-md-2 control-label"></label>

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,23 +7,25 @@ using RegTempus.Models;
 using RegTempus.Services;
 using RegTempus.ViewModels;
 
+
 namespace RegTempus.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
         private IRegTempus _iRegTempus;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public HomeController(IRegTempus iRegTempus)
+        public HomeController(IRegTempus iRegTempus, SignInManager<IdentityUser> signInManager)
         {
             _iRegTempus = iRegTempus;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (!_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -182,7 +181,7 @@ namespace RegTempus.Controllers
         }
 
         [HttpPost]
-        public IActionResult PresentRegistrations(int registratorId,int month)
+        public IActionResult PresentRegistrations(int registratorId, int month)
         {
             List<TimeMeasurement> presentMonthTimeMesurements = new List<TimeMeasurement>();
             DateTime currentMonth = DateTime.Now;

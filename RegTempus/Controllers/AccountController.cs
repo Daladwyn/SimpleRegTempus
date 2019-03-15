@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RegTempus.Models;
@@ -42,14 +39,10 @@ namespace RegTempus.Controllers
             {
                 var result = await
                     _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
-                Registrator registrator = new Registrator()
-                {
-                    UserId = user.Id
-                };
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("RegisterTime", "Home", registrator);
+                    return RedirectToAction("RegisterTime", "Home");
                 }
             }
             ModelState.AddModelError("", "User name/password not found");
@@ -84,6 +77,10 @@ namespace RegTempus.Controllers
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+
                 }
             }
             return View(registerViewModel);

@@ -58,8 +58,11 @@
     <div class="col-3 col-sm-3 col-md-3">
         <span>Stop</span>
     </div>
-    <div class="col-4 col-sm-4 col-md-4">
+    <div class="col-2 col-sm-2 col-md-2">
         <span>Break</span>
+    </div>
+    <div class="col-2 col-sm-2 col-md-2">
+        <span>Work Time</span>
     </div>
 </div>
 <hr />
@@ -88,10 +91,18 @@
             </div>
 
         </div>
-        <div class="col-4 col-sm-4 col-md-4">
+        <div class="col-2 col-sm-2 col-md-2">
             <div>
                 @day.TimeBreakString
                 <button class="" onclick="copyToClipboard('@day.TimeBreakString')">
+                    <i class="far fa-copy"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-2 col-sm-2 col-md-2">
+            <div>
+                @day.TimeRegisteredString
+                <button class="" onclick="copyToClipboard('@day.TimeRegisteredString')">
                     <i class="far fa-copy"></i>
                 </button>
             </div>
