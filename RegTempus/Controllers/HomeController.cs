@@ -40,26 +40,25 @@ namespace RegTempus.Controllers
         [HttpGet]
         public IActionResult RegisterTime(Registrator registrator)
         {
-            if (registrator.UserId != null)
+            //if (registrator.UserId != null)
+            //{
+            //    registrator = _iRegTempus.GetRegistratorBasedOnUserId(registrator);
+            //}
+            bool result = ((registrator == null) ? false : true);
+            if (result == true)
             {
-                registrator = _iRegTempus.GetRegistratorBasedOnUserId(registrator);
+                //registrator.UserHaveStartedTimeMeasure = false;
+                //registrator.StartedTimeMeasurement = 0;
+                //registrator = _iRegTempus.CreateRegistrator(registrator);
+                UserTimeRegistrationViewModel konvertedRegistrator =
+                    UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
+                ViewBag.CurrentMonth = DateTime.Now.Month;
+                return View(konvertedRegistrator);
             }
-            if (registrator.UserId == null)
+            else
             {
                 return RedirectToAction("Login", "Account");
             }
-            bool result = ((registrator == null) ? false : true);
-            if (result == false)
-            {
-                // registrator = Registrator.GetRegistratorData(user); uncomment this line if Azure AD is used.
-                registrator.UserHaveStartedTimeMeasure = false;
-                registrator.StartedTimeMeasurement = 0;
-                registrator = _iRegTempus.CreateRegistrator(registrator);
-            }
-            UserTimeRegistrationViewModel konvertedRegistrator =
-                UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
-            ViewBag.CurrentMonth = DateTime.Now.Month;
-            return View(konvertedRegistrator);
         }
 
         [HttpPost]
@@ -207,10 +206,15 @@ namespace RegTempus.Controllers
             {
                 presentMonthTimeMesurements = _iRegTempus.GetMonthlyTimeMeasurement(currentMonthAsInt, registrator);
             }
-            catch (NullReferenceException)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Error: No registrations was found for the present month.";
                 return View("RegisterTime");
+            }
+            if (presentMonthTimeMesurements.Count == 0)
+            {
+                List<PresentRegisteredTimeViewModel> NoRegisteredTime = new List<PresentRegisteredTimeViewModel>();
+                return View(NoRegisteredTime);
             }
             List<PresentRegisteredTimeViewModel> currentMonthRegistrations = PresentRegisteredTimeViewModel.CalculateTime(presentMonthTimeMesurements);
             return View(currentMonthRegistrations);

@@ -42,7 +42,7 @@ namespace RegTempus.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("RegisterTime", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             ModelState.AddModelError("", "User name/password not found");

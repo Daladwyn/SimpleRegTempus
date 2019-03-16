@@ -7,17 +7,29 @@
 <nav class="nav-bar navbar-expand-sm">
     <ul class="navbar-nav">
         <li class="nav-item">
-            <form asp-controller="Home" asp-action="Index" method="">
+            <form asp-controller="Home" asp-action="Index" method="get">
                 <input class="btn btn-primary" type="submit" name="name" value="Time registration" />
             </form>
         </li>
         @if (ViewBag.PrevMonth != "")
         {
-            <li class="nav-item">
-                <button class="btn btn-info">
-                    Prev
-                </button>
-            </li>
+        <li class="nav-item">
+            @*<button class="btn btn-info">
+                Prev
+            </button>*@
+            <form asp-controller="Home" asp-action="/PresentRegistrations" method="post">
+                <div class="row">
+                    <div class="col-5 col-sm-5 col-md-5"></div>
+                    <div class="col-2 col-sm-2 col-md-2">
+                        <input class="btn btn-secondary" type="submit" value="Prev" />
+                        <input type="hidden" value=@ViewBag.RegistratorId name="registratorId" />
+                        <input type="hidden" value=@ViewBag.NextMonth name="month" />
+                    </div>
+                    <div class="col-5 col-sm-5 col-md-5"></div>
+                </div>
+
+            </form>
+        </li>
         }
 
         <li class="nav-item">
@@ -36,7 +48,7 @@
                 <div class="row">
                     <div class="col-5 col-sm-5 col-md-5"></div>
                     <div class="col-2 col-sm-2 col-md-2">
-                        <input class="btn btn-secondary" type="submit" value="Time" />
+                        <input class="btn btn-secondary" type="submit" value="Next" />
                         <input type="hidden" value=@ViewBag.RegistratorId name="registratorId" />
                         <input type="hidden" value=@ViewBag.NextMonth name="month" />
                     </div>
@@ -66,47 +78,54 @@
     </div>
 </div>
 <hr />
-@foreach (var day in Model)
+@if (Model.Count == 0)
 {
+    <div>No time is registered for this month!!</div>
+}
+else
+{
+    @foreach (var day in Model)
+    {
 
-    <div class="row ">
-        <div class="col-1 col-sm-1 col-md-1">
-            @day.Day
-        </div>
-        <div class="col-3 col-sm-3 col-md-3">
-            <div>
-                @day.TimeStart.ToShortTimeString()
-                <button class="" onclick="copyToClipboard('@day.TimeStart.ToShortTimeString()')">
-                    <i class="far fa-copy"></i>
-                </button>
+        <div class="row ">
+            <div class="col-1 col-sm-1 col-md-1">
+                @day.Day
             </div>
+            <div class="col-3 col-sm-3 col-md-3">
+                <div>
+                    @day.TimeStart.ToShortTimeString()
+                    <button class="" onclick="copyToClipboard('@day.TimeStart.ToShortTimeString()')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
 
-        </div>
-        <div class="col-3 col-sm-3 col-md-3">
-            <div>
-                @day.TimeStop.ToShortTimeString()
-                <button class="" onclick="copyToClipboard('@day.TimeStop.ToShortTimeString()')">
-                    <i class="far fa-copy"></i>
-                </button>
             </div>
+            <div class="col-3 col-sm-3 col-md-3">
+                <div>
+                    @day.TimeStop.ToShortTimeString()
+                    <button class="" onclick="copyToClipboard('@day.TimeStop.ToShortTimeString()')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
 
-        </div>
-        <div class="col-2 col-sm-2 col-md-2">
-            <div>
-                @day.TimeBreakString
-                <button class="" onclick="copyToClipboard('@day.TimeBreakString')">
-                    <i class="far fa-copy"></i>
-                </button>
+            </div>
+            <div class="col-2 col-sm-2 col-md-2">
+                <div>
+                    @day.TimeBreakString
+                    <button class="" onclick="copyToClipboard('@day.TimeBreakString')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-2 col-sm-2 col-md-2">
+                <div>
+                    @day.TimeRegisteredString
+                    <button class="" onclick="copyToClipboard('@day.TimeRegisteredString')">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="col-2 col-sm-2 col-md-2">
-            <div>
-                @day.TimeRegisteredString
-                <button class="" onclick="copyToClipboard('@day.TimeRegisteredString')">
-                    <i class="far fa-copy"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <hr />
+        <hr />
+    }
 }
