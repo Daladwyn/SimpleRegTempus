@@ -40,19 +40,11 @@ namespace RegTempus.Controllers
         [HttpGet]
         public IActionResult RegisterTime(Registrator registrator)
         {
-            //if (registrator.UserId != null)
-            //{
-            //    registrator = _iRegTempus.GetRegistratorBasedOnUserId(registrator);
-            //}
             bool result = ((registrator == null) ? false : true);
             if (result == true)
             {
-                //registrator.UserHaveStartedTimeMeasure = false;
-                //registrator.StartedTimeMeasurement = 0;
-                //registrator = _iRegTempus.CreateRegistrator(registrator);
-                UserTimeRegistrationViewModel konvertedRegistrator =
-                    UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
-                ViewBag.CurrentMonth = DateTime.Now.Month;
+                UserTimeRegistrationViewModel konvertedRegistrator = UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
+                ViewBag.CurrentMonth = DateTime.Now;
                 return View(konvertedRegistrator);
             }
             else
@@ -180,14 +172,17 @@ namespace RegTempus.Controllers
         }
 
         [HttpPost]
-        public IActionResult PresentRegistrations(int registratorId, int month)
+        public IActionResult PresentRegistrations(int registratorId, DateTime currentMonth)
         {
             List<TimeMeasurement> presentMonthTimeMesurements = new List<TimeMeasurement>();
-            DateTime currentMonth = DateTime.Now;
+            //DateTime currentMonth = DateTime.Now;
             int currentMonthAsInt = currentMonth.Month;
-            string currentMonthAsString = currentMonth.ToString("yyyy MMMM");
-            ViewBag.Month = currentMonthAsString;
-            ViewBag.NextMonth = "";
+            ViewBag.Month = currentMonth.ToString("yyyy MMMM");
+            ViewBag.NextMonth = currentMonth.AddMonths(1);
+            TimeSpan oneMonth = currentMonth.AddMonths(1) - currentMonth;
+            DateTime PrevMonth = currentMonth.Subtract(oneMonth);
+            ViewBag.PrevMonth = PrevMonth;
+
             Registrator registrator = new Registrator
             {
                 RegistratorId = registratorId

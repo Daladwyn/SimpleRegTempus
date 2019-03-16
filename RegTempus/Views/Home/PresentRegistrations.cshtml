@@ -11,52 +11,41 @@
                 <input class="btn btn-primary" type="submit" name="name" value="Time registration" />
             </form>
         </li>
-        @if (ViewBag.PrevMonth != "")
-        {
+
         <li class="nav-item">
-            @*<button class="btn btn-info">
-                Prev
-            </button>*@
             <form asp-controller="Home" asp-action="/PresentRegistrations" method="post">
                 <div class="row">
                     <div class="col-5 col-sm-5 col-md-5"></div>
                     <div class="col-2 col-sm-2 col-md-2">
                         <input class="btn btn-secondary" type="submit" value="Prev" />
                         <input type="hidden" value=@ViewBag.RegistratorId name="registratorId" />
-                        <input type="hidden" value=@ViewBag.NextMonth name="month" />
+                        <input type="hidden" value=@ViewBag.PrevMonth name="currentMonth" />
                     </div>
                     <div class="col-5 col-sm-5 col-md-5"></div>
                 </div>
-
             </form>
         </li>
-        }
 
         <li class="nav-item">
             <span class="navbar-brand">
                 @ViewBag.Month
             </span>
         </li>
-        @if (ViewBag.NextMonth != "")
-        {
-            <li class="nav-item">
-                <button class="btn btn-primary">
-                    Next
-                </button>
-            </li>
+
+        <li class="nav-item">
             <form asp-controller="Home" asp-action="/PresentRegistrations" method="post">
                 <div class="row">
                     <div class="col-5 col-sm-5 col-md-5"></div>
                     <div class="col-2 col-sm-2 col-md-2">
                         <input class="btn btn-secondary" type="submit" value="Next" />
                         <input type="hidden" value=@ViewBag.RegistratorId name="registratorId" />
-                        <input type="hidden" value=@ViewBag.NextMonth name="month" />
+                        <input type="hidden" value=@ViewBag.NextMonth name="currentMonth" />
                     </div>
                     <div class="col-5 col-sm-5 col-md-5"></div>
                 </div>
-
             </form>
-        }
+        </li>
+
     </ul>
 </nav>
 <hr />
