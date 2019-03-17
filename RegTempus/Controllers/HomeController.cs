@@ -177,6 +177,7 @@ namespace RegTempus.Controllers
             List<TimeMeasurement> presentMonthTimeMesurements = new List<TimeMeasurement>();
             //DateTime currentMonth = DateTime.Now;
             int currentMonthAsInt = currentMonth.Month;
+            int currentYearAsInt = currentMonth.Year;
             ViewBag.Month = currentMonth.ToString("yyyy MMMM");
             ViewBag.NextMonth = currentMonth.AddMonths(1);
             TimeSpan oneMonth = currentMonth.AddMonths(1) - currentMonth;
@@ -196,10 +197,11 @@ namespace RegTempus.Controllers
                 ViewBag.ErrorMessage = "Error: Fetching your data did not succed. Please try again.";
                 return View("RegisterTime");
             }
+            ViewBag.RegistratorId = registrator.RegistratorId;
 
             try
             {
-                presentMonthTimeMesurements = _iRegTempus.GetMonthlyTimeMeasurement(currentMonthAsInt, registrator);
+                presentMonthTimeMesurements = _iRegTempus.GetMonthlyTimeMeasurement(currentMonthAsInt, currentYearAsInt, registrator);
             }
             catch (Exception)
             {
