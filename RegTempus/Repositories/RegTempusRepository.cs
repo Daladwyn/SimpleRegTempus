@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RegTempus.Repositories
 {
-    public class RegTempusRepository// : IRegTempus
+    public class RegTempusRepository
     {
         private readonly RegTempusDbContext _appDbContext;
 
@@ -26,7 +26,6 @@ namespace RegTempus.Repositories
 
         public void CreateNewMeasurement(DateTime TimeStart)
         {
-            //var measurement = new TimeMeasurement();
             throw new NotImplementedException();
         }
 

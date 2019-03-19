@@ -9,10 +9,6 @@ namespace RegTempus.ViewModels
 {
     public struct PresentRegisteredTimeViewModel
     {
-
-        //[MaxLength(10)]
-        //public string Month { get; set; }
-
         [Range(1, 31)]
         public int Day { get; set; }
 
@@ -38,7 +34,6 @@ namespace RegTempus.ViewModels
                 Day = MonthMesurement[0].DayOfMonth,
                 TimeBreak = TimeSpan.Zero,
                 TimeRegistered = TimeSpan.Zero
-
             };
 
             for (int i = 1; i < MonthMesurement.Count(); i++)
@@ -56,7 +51,6 @@ namespace RegTempus.ViewModels
                 }
                 else
                 {
-
                     calculatedTimeList.Add(aDay);
                     aDay.TimeStart = MonthMesurement[i].TimeStart;
                     aDay.TimeStop = MonthMesurement[i].TimeStop;
@@ -67,9 +61,6 @@ namespace RegTempus.ViewModels
                     aDay.TimeRegisteredString = aDay.TimeRegistered.ToString(@"hh\:mm\:ss");
                     i--;
                 }
-
-
-
             }
             calculatedTimeList.Add(aDay);
             return calculatedTimeList;

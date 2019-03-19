@@ -44,7 +44,7 @@ namespace RegTempus.Controllers
             if (result == true)
             {
                 UserTimeRegistrationViewModel konvertedRegistrator = UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
-                ViewBag.CurrentMonth = DateTime.Now;
+                ViewBag.CurrentDate = DateTime.Now;
                 return View(konvertedRegistrator);
             }
             else
@@ -172,16 +172,15 @@ namespace RegTempus.Controllers
         }
 
         [HttpPost]
-        public IActionResult PresentRegistrations(int registratorId, DateTime currentMonth)
+        public IActionResult PresentRegistrations(int registratorId, DateTime currentDate)
         {
             List<TimeMeasurement> presentMonthTimeMesurements = new List<TimeMeasurement>();
-            //DateTime currentMonth = DateTime.Now;
-            int currentMonthAsInt = currentMonth.Month;
-            int currentYearAsInt = currentMonth.Year;
-            ViewBag.Month = currentMonth.ToString("yyyy MMMM");
-            ViewBag.NextMonth = currentMonth.AddMonths(1);
-            TimeSpan oneMonth = currentMonth.AddMonths(1) - currentMonth;
-            DateTime PrevMonth = currentMonth.Subtract(oneMonth);
+            int currentMonthAsInt = currentDate.Month;
+            int currentYearAsInt = currentDate.Year;
+            ViewBag.Month = currentDate.ToString("yyyy MMMM");
+            ViewBag.NextMonth = currentDate.AddMonths(1);
+            TimeSpan oneMonth = currentDate.AddMonths(1) - currentDate;
+            DateTime PrevMonth = currentDate.Subtract(oneMonth);
             ViewBag.PrevMonth = PrevMonth;
 
             Registrator registrator = new Registrator

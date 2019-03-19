@@ -50,17 +50,10 @@ namespace RegTempus
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            //app.UseNodeModules(env.ContentRootPath);
-
             app.UseAuthentication();
 
-            
             app.UseMvc(RouteOptions);
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
         }
         private void RouteOptions(IRouteBuilder routes)
         {
