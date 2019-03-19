@@ -6,13 +6,13 @@
 }
 <div class="nav-bar navbar-expand-sm">
     <div class="row">
-        <div class="col-4 col-sm-4 col-md-4">
+        <div class="col-4 col-sm-4 col-md-2">
             <form asp-controller="Home" asp-action="Index" method="get">
-                <input class="btn btn-primary" type="submit" name="name" value="Time registration" />
+                <input class="btn btn-primary" type="submit" name="name" value="Register Time" />
             </form>
         </div>
 
-        <div class="col-2 col-sm-2 col-md-2">
+        <div class="col-2 col-sm-2 col-md-1">
             <form asp-controller="Home" asp-action="PresentRegistrations" method="post">
                 <div class="">
                     <input class="btn btn-secondary" type="submit" value="Prev" />
@@ -23,19 +23,20 @@
             </form>
         </div>
 
-        <div class="col-4 col-sm-4 col-md-4">
+        <div class="col-4 col-sm-4 col-md-3">
             <span class="navbar-brand">
                 @ViewBag.Month
             </span>
         </div>
 
-        <div class="col-2 col-sm-2 col-md-2">
+        <div class="col-2 col-sm-2 col-md-1">
             <form asp-controller="Home" asp-action="PresentRegistrations" method="post">
                 <input class="btn btn-secondary" type="submit" value="Next" />
                 <input type="hidden" value=@ViewBag.RegistratorId name="registratorId" />
                 <input type="hidden" value=@ViewBag.NextMonth name="currentDate" />
             </form>
         </div>
+        <div class="col-md-5"></div>
     </div>
 </div>
 <hr />
