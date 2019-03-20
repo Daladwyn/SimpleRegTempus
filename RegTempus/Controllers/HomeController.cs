@@ -96,6 +96,7 @@ namespace RegTempus.Controllers
                 ViewBag.ErrorMessage = "Error: changing your details did not succed";
             }
             ViewBag.SuccessMessage = "Your start time is registered.";
+            ViewBag.CurrentDate = DateTime.Now;
             UserTimeRegistrationViewModel konvertedRegistrator = UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
             return View("RegisterTime", konvertedRegistrator);
         }
@@ -167,6 +168,7 @@ namespace RegTempus.Controllers
                 return View("RegisterTime");
             }
             ViewBag.SuccessMessage = "Your stop time is registered.";
+            ViewBag.CurrentDate = DateTime.Now;
             UserTimeRegistrationViewModel konvertedRegistrator = UserTimeRegistrationViewModel.RestructureTheRegistratorData(registrator);
             return View("RegisterTime", konvertedRegistrator);
         }
