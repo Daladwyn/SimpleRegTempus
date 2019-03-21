@@ -33,7 +33,7 @@ namespace RegTempus.ViewModels
                 TimeStop = MonthMesurement[0].TimeStop,
                 Day = MonthMesurement[0].DayOfMonth,
                 TimeBreak = TimeSpan.Zero,
-                TimeRegistered = TimeSpan.Zero
+                TimeRegistered = MonthMesurement[0].TimeRegistered
             };
 
             for (int i = 1; i < MonthMesurement.Count(); i++)
