@@ -43,8 +43,10 @@ namespace RegTempus.Models
             {
                 TimeMeasurementId = 0,
                 RegistratorId = registrator.RegistratorId,
-                TimeStart = DateTime.Now.AddHours(1),
-                TimeStop = DateTime.Now.AddHours(1),
+                TimeStart=DateTime.Now.AddHours(2), //Sommartid
+                TimeStop=DateTime.Now.AddHours(2), //Sommartid
+                //TimeStart = DateTime.Now.AddHours(1), //vintertid
+                //TimeStop = DateTime.Now.AddHours(1),  //vintertid
                // DayInWeek= DateTime.Today.DayOfWeek,
                 DayOfMonth = DateTime.Today.Day,
                 MonthOfYear = DateTime.Today.Month,
@@ -93,7 +95,8 @@ namespace RegTempus.Models
         /// <returns></returns>
         public static TimeMeasurement stopClock(TimeMeasurement measuredTime, DateTime stopTime)
         {
-            measuredTime.TimeStop = stopTime.AddHours(1);
+            measuredTime.TimeStop = stopTime.AddHours(2);//Sommartid
+            //measuredTime.TimeStop = stopTime.AddHours(1); //Vintertid
             measuredTime.TimeRegistered = measuredTime.TimeStop - measuredTime.TimeStart;
             return measuredTime;
         }
