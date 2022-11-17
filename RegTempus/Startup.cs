@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,32 +33,20 @@ namespace RegTempus
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseStatusCodePages();
 
             app.UseStaticFiles();
 
             app.UseNodeModules(env.ContentRootPath);
 
-            //app.UseAuthentication();
+            app.UseRouting();
 
-            app.UseMvc(RouteOptions);
-
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
-        }
-        private void RouteOptions(IRouteBuilder routes)
-        {
-            routes.MapRoute("Default", "{controller=Account}/{action=Login}");
-            //routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Account}/{action=Login}");
+            });
         }
     }
 }
